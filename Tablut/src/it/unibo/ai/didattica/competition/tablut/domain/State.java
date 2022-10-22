@@ -59,6 +59,10 @@ public abstract class State {
 			return pawn;
 		}
 
+		public static Pawn fromString(String pawnChar) {
+            return Pawn.valueOf(pawnChar);
+        }
+
 	}
 
 	protected Pawn board[][];
