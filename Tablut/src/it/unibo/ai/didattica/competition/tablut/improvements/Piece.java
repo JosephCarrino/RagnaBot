@@ -4,71 +4,62 @@ package it.unibo.ai.didattica.competition.tablut.improvements;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Pawn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Improvement of 'pawn' class, in order to save position and make harder operations
  * 
  * @author G. Carrino, M. Vannucchi
  */
 public class Piece {
-    
-    // Class for coordinates of a piece
-    public class Position {
-        public int x, y;
-
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        /***
-         * 
-         * @return An array of all reachable Positions starting from the current
-         */
-        public Position[] getPossibleMoves() {
-            Position[] possibleTo = new Position[16];
-            int stateX = this.x;
-            int stateY = this.y;
-    
-            for (int i = 0; i < 9 ; i++){
-                if (i != stateY)
-                    possibleTo[i] = new Position(stateX, i);
-            }
-            for (int i = 0; i < 9; i++){
-                if (i != stateX)
-                    possibleTo[i+8] = new Position(i, stateY); 
-            }
-
-            return possibleTo;
-        }
-
-        public String toString(){
-            return this.x + ", " + this.y;
-        }
-    }
 
         // Current piece position
-        Position position = new Position(0, 0);
+        Position position;
 
         // The piece type, can be "W", "B" or "K"
-        Pawn kind = Pawn.fromString("0");
+        Pawn kind;
 
         // The current game state
         State state;
 
-        public Piece(State s, Pawn kind, int xPos, int yPos) {
+        public Piece(State s, Pawn kind, Position position) {
             this.state = s;
 
             // Piece should not be empty pawn or throne
-            if ((kind.toString() != "0") && (kind.toString() != "T"))
+            if (!kind.equals(Pawn.EMPTY) && !kind.equals(Pawn.THRONE))
                 this.kind = kind;
             else
                 throw new IllegalStateException("Piece must be checker or king.");
-            
-                this.position = new Position(xPos, yPos);
+
+            this.position = position;
         }
 
         public String toString(){
-            return kind.toString() + position.toString();
+            return kind.toString() + "(" + position.toString() + ")";
         }
-    
+
+        /**
+         *
+         * @return Return the turn type of the player of the given piece.
+         */
+        public State.Turn getPiecePlayer(){
+            if (this.kind.equals(Pawn.WHITE) || this.kind.equals(Pawn.KING)) {
+                return State.Turn.WHITE;
+            } else if (this.kind.equals(Pawn.BLACK)) {
+                return State.Turn.BLACK;
+            } else {
+                return State.Turn.DRAW;
+            }
+        }
+
+        /**
+         *
+         * @return Return a list of the possible action that the piece can do in the current state of the board
+         */
+        public List<Action> getValidActions() {
+            // TODO need implementations
+
+            return new ArrayList<>();
+        }
 }
