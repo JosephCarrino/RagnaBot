@@ -63,7 +63,6 @@ public class TablutAIClient extends TablutClient {
             try {
                 this.read();
             } catch (ClassNotFoundException | IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 System.exit(1);
             }
