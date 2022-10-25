@@ -20,12 +20,7 @@ public class Piece {
         // The piece type, can be "W", "B" or "K"
         Pawn kind;
 
-        // The current game state
-        State state;
-
-        public Piece(State s, Pawn kind, Position position) {
-            this.state = s;
-
+        public Piece(Pawn kind, Position position) {
             // Piece should not be empty pawn or throne
             if (!kind.equals(Pawn.EMPTY) && !kind.equals(Pawn.THRONE))
                 this.kind = kind;
@@ -57,9 +52,21 @@ public class Piece {
          *
          * @return Return a list of the possible action that the piece can do in the current state of the board
          */
-        public List<Action> getValidActions() {
-            // TODO need implementations
+        public List<Action> getValidActions(CompleteState state) {
+            List<Position> possibleMoves = position.getPossibleMoves();
+            String startingBox = state.getBox(position);
 
-            return new ArrayList<>();
+            List<Action> validActions = new ArrayList<>();
+            for (Position toPosition: possibleMoves) {
+                try {
+                    String toBox = state.getBox(toPosition);
+                    Action action = new Action(startingBox, toBox, state.getTurn());
+                    if (state.isActionValid(action))
+                        validActions.add(action);
+                } catch (Exception ignored) {
+                }
+            }
+
+            return validActions;
         }
 }

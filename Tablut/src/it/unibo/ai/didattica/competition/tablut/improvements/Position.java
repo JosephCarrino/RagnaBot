@@ -1,6 +1,9 @@
 package it.unibo.ai.didattica.competition.tablut.improvements;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class for coordinates of a piece
  *
@@ -23,13 +26,16 @@ public class Position {
         int stateX = this.x;
         int stateY = this.y;
 
+        List<Position> possibleTo = new ArrayList<>();
+
+
         for (int i = 0; i < 9 ; i++){
             if (i != stateY)
-                possibleTo[i] = new Position(stateX, i);
+                possibleTo.add(new Position(stateX, i));
         }
         for (int i = 0; i < 9; i++){
             if (i != stateX)
-                possibleTo[i+8] = new Position(i, stateY);
+                possibleTo.add(new Position(i, stateY));
         }
 
         return possibleTo;
