@@ -20,30 +20,31 @@ public class TablutAIClient extends TablutClient {
     }
 
     public static void main(String[] args) throws IOException {
-        String player = "";
+        //String player = "";
+        String player = "WHITE";
         String name = "random";
         String ipAddress = "localhost";
         int timeout = 60;
-
-        if (args.length < 1) {
-            System.out.println("You must specify which player you are (white or black)");
-            System.exit(-1);
-        } else {
-            player = args[0];
-        }
-
-        if (args.length >= 2) {
-            try {
-                timeout = Integer.parseInt(args[2]);
-            } catch (Exception e) {
-                System.out.println("Timeout must be an integer value");
-                System.exit(-1);
-            }
-        }
-
-        if (args.length == 4) {
-            ipAddress = args[3];
-        }
+        System.out.println("In main");
+//        if (args.length < 1) {
+//            System.out.println("You must specify which player you are (black or white)");
+//            System.exit(-1);
+//        } else {
+//            player = args[0];
+//        }
+//
+//        if (args.length >= 2) {
+//            try {
+//                timeout = Integer.parseInt(args[2]);
+//            } catch (Exception e) {
+//                System.out.println("Timeout must be an integer value");
+//                System.exit(-1);
+//            }
+//        }
+//
+//        if (args.length == 4) {
+//            ipAddress = args[3];
+//        }
 
         TablutAIClient client = new TablutAIClient(player, name, timeout, ipAddress, 4);
         client.run();
@@ -51,10 +52,14 @@ public class TablutAIClient extends TablutClient {
 
     @Override
     public void run() {
+        try {
+            this.declareName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("Running...");
 
         while (true){
-            System.out.println("Loop");
             try {
                 this.read();
             } catch (ClassNotFoundException | IOException e1) {
@@ -62,7 +67,7 @@ public class TablutAIClient extends TablutClient {
                 e1.printStackTrace();
                 System.exit(1);
             }
-
+            System.out.println("Current state: ");
             CompleteState completeState = new CompleteState(this.getCurrentState(), this.rules);
             State.Turn turn = completeState.getTurn();
             State.Turn player = this.getPlayer();

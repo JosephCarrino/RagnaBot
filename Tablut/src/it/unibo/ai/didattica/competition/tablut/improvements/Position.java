@@ -21,8 +21,7 @@ public class Position {
      *
      * @return An array of all reachable Positions starting from the current
      */
-    public Position[] getPossibleMoves() {
-        Position[] possibleTo = new Position[16];
+    public List<Position> getPossibleMoves() {
         int stateX = this.x;
         int stateY = this.y;
 
