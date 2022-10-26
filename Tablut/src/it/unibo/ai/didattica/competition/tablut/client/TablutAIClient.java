@@ -19,6 +19,11 @@ public class TablutAIClient extends TablutClient {
         this.rules = this.getRules();
     }
 
+    /***
+     *
+     * @param args They are passed using '-Dargs="{color} {playername} {timeout} {ipaddress}"', only 'color' is required
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         String player = "";
         //String player = "WHITE";
