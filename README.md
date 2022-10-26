@@ -51,6 +51,14 @@ At this point, a window with the game state should appear.
 
 To be able to run other classes, change the `build.xml` file and re-compile everything
 
+To run RagnaBot use:
+
+```
+ant ragnabot -Dargs="WHITE {playerName} {timeout} {ipAddress}"
+
+ant ragnabot -Dargs="BLACK  {playerName} {timeout} {ipAddress}"
+```
+
 
 ## Replay function
 

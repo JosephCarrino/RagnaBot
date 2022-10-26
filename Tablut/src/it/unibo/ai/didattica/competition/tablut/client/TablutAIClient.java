@@ -20,31 +20,34 @@ public class TablutAIClient extends TablutClient {
     }
 
     public static void main(String[] args) throws IOException {
-        //String player = "";
-        String player = "WHITE";
+        String player = "";
+        //String player = "WHITE";
         String name = "random";
         String ipAddress = "localhost";
         int timeout = 60;
-        System.out.println("In main");
-//        if (args.length < 1) {
-//            System.out.println("You must specify which player you are (black or white)");
-//            System.exit(-1);
-//        } else {
-//            player = args[0];
-//        }
-//
-//        if (args.length >= 2) {
-//            try {
-//                timeout = Integer.parseInt(args[2]);
-//            } catch (Exception e) {
-//                System.out.println("Timeout must be an integer value");
-//                System.exit(-1);
-//            }
-//        }
-//
-//        if (args.length == 4) {
-//            ipAddress = args[3];
-//        }
+        System.out.println(args.length);
+        if (args.length < 1) {
+            System.out.println("You must specify which player you are (black or white)");
+            System.exit(-1);
+        } else {
+            player = args[0];
+        }
+
+        if (args.length >= 2)
+            name = args[1];
+
+        if (args.length >= 3){
+            try {
+                timeout = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                System.out.println("Timeout must be an integer value");
+                System.exit(-1);
+            }
+        }
+
+        if (args.length == 4) {
+            ipAddress = args[3];
+        }
 
         TablutAIClient client = new TablutAIClient(player, name, timeout, ipAddress, 4);
         client.run();

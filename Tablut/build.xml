@@ -123,8 +123,9 @@
         </jar>
     </target>
 
-    <target name="ai">
+    <target name="ragnabot">
         <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutAIClient" fork="true">
+            <arg line="${args}"/>
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
                 <pathelement location="build"/>
