@@ -3,19 +3,22 @@ package it.unibo.ai.didattica.competition.tablut.localEmulator;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.gui.Gui;
 
-public class Emulator{
-    private final Thread threadWhite;
-    private final Thread threadBlack;
+import java.io.*;
 
-    private State state;
-    private final Game rules;
-    private Gui gui;
-    private boolean guiOn;
-    private final int gameType;
+public class Emulator {
+    public State state;
+    public final Game rules;
 
-    public Emulator(TablutLocalClient clientWhite, TablutLocalClient clientBlack, int gameType, boolean guiOn){
+    public Gui gui;
+    public boolean guiOn;
+    public final int gameType;
+    public boolean isGameRunning;
+    public final GameData gameData = new GameData();
+
+
+
+    public Emulator(int gameType, boolean guiOn){
         this.gameType = gameType;
-
         switch (this.gameType) {
             case 1 -> {
                 this.state = new StateTablut();
@@ -43,53 +46,58 @@ public class Emulator{
         }
 
         this.guiOn = guiOn;
-        if(this.guiOn)
-            this.initializeGUI(this.state);
-
-        this.threadWhite = new Thread(clientWhite);
-        this.threadBlack = new Thread(clientBlack);
     }
 
     public void start() {
-        this.threadWhite.start();
-        this.threadBlack.start();
-    }
-
-    public void initializeGUI(State state) {
-        // TODO Make it work with other game types
-        this.gui = new Gui(this.gameType);
-        this.gui.update(state);
+        if(this.guiOn){
+            this.gui = new Gui(this.gameType);
+            this.gui.update(state);
+        }
+        this.isGameRunning = true;
     }
 
     public void declareName(){
-        // Do nothing
+        // do nothing
     }
 
-    public void write(Action action) {
+    public void write(Action action) throws IOException {
+        if(!this.isGameRunning){
+            System.out.println("Tried to write action while game is not running");
+            return;
+        }
+
+        if (!action.getTurn().equals(this.state.getTurn())){
+            System.out.println("Tried to write action while not your turn");
+            return;
+        }
+
         try{
             this.state = this.rules.checkMove(this.state, action);
 
-            if (this.guiOn)
+            if(this.guiOn) {
                 this.gui.update(this.state);
-        } catch (Exception ignored) {
-            System.out.println("Wrong move");
+            }
+
+            this.gameData.appendState(this.state);
+
+            this.checkFinish();
+        } catch (Exception exception){
+            exception.printStackTrace();
         }
     }
 
-    public State read(){
-        this.checkFinish();
+    public State read() throws IOException{
         return this.state;
     }
 
     private void checkFinish(){
         switch (this.state.getTurn()) {
             case BLACKWIN, WHITEWIN, DRAW -> {
-                this.threadWhite.interrupt();
-                this.threadBlack.interrupt();
+                this.isGameRunning = false;
+                this.gameData.finalResult = this.state.getTurn();
             }
             default -> {
             }
         }
     }
-
 }

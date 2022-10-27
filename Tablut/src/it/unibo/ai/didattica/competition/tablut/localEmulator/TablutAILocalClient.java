@@ -72,7 +72,6 @@ public class TablutAILocalClient extends TablutLocalClient {
                 this.read();
             } catch (ClassNotFoundException | IOException e1) {
                 e1.printStackTrace();
-                System.exit(1);
             }
             CompleteState completeState = new CompleteState(this.getCurrentState(), this.rules);
             State.Turn turn = completeState.getTurn();
@@ -94,35 +93,34 @@ public class TablutAILocalClient extends TablutLocalClient {
                 }
 
             } else {
-                System.out.println("Checking Wins");
-                this.checkWin(turn, player);
+                if(this.checkWin(turn, player)){
+                    return;
+                }
             }
 
         }
 
     }
 
-    private void checkWin(State.Turn turn, State.Turn player){
+    private boolean checkWin(State.Turn turn, State.Turn player){
         State.Turn winner = null;
         switch (turn) {
             case WHITEWIN -> winner = State.Turn.WHITE;
             case BLACKWIN -> winner = State.Turn.BLACK;
             case DRAW -> {
                 System.out.println("DRAW!");
-                System.exit(0);
             }
             default -> {
-                return;
+                return false;
             }
         }
 
         if (winner.equals(player)) {
-            System.out.println("YOU WIN!");
-            System.exit(0);
+            System.out.println("YOU WIN!" + player);
         } else{
-            System.out.println("YOU LOSE!");
-            System.exit(0);
+            System.out.println("YOU LOSE!" + player);
         }
+        return true;
     }
     private Game getRules(){
         switch (this.gameType) {

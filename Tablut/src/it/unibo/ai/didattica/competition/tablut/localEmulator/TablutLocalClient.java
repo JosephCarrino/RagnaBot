@@ -12,12 +12,9 @@ public abstract class TablutLocalClient implements  Runnable {
     private Emulator emulator;
 
     protected TablutLocalClient(String player) {
+        System.out.println(Thread.currentThread().getName());
         // super(player, "localClient", 60);
         this.player = State.Turn.valueOf(player);
-    }
-
-    public Emulator getEmulator() {
-        return emulator;
     }
 
     public void setEmulator(Emulator emulator) {
