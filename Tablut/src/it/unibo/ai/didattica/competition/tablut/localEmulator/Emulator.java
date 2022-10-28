@@ -15,9 +15,7 @@ public class Emulator {
     public boolean isGameRunning;
     public final GameData gameData = new GameData();
 
-
-
-    public Emulator(int gameType, boolean guiOn){
+    public Emulator(int gameType, boolean guiOn, State startingState){
         this.gameType = gameType;
         switch (this.gameType) {
             case 1 -> {
@@ -45,7 +43,14 @@ public class Emulator {
             }
         }
 
+        if(startingState != null)
+            this.state = startingState;
+
         this.guiOn = guiOn;
+    }
+
+    public Emulator(int gameType, boolean guiOn){
+        this(gameType, guiOn, null);
     }
 
     public void start() {
@@ -78,7 +83,7 @@ public class Emulator {
                 this.gui.update(this.state);
             }
 
-            this.gameData.appendState(this.state);
+            this.gameData.appendState(this.state.clone());
 
             this.checkFinish();
         } catch (Exception exception){
@@ -93,8 +98,8 @@ public class Emulator {
     private void checkFinish(){
         switch (this.state.getTurn()) {
             case BLACKWIN, WHITEWIN, DRAW -> {
-                this.isGameRunning = false;
                 this.gameData.finalResult = this.state.getTurn();
+                this.isGameRunning = false;
             }
             default -> {
             }
