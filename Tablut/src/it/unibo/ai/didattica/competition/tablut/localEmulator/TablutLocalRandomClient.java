@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-public class TablutAILocalClient extends TablutLocalClient {
+public class TablutLocalRandomClient extends TablutLocalClient {
     int gameType;
     Game rules;
 
-    public TablutAILocalClient(String player, String name, int timeout, String ipAddress, int gameType) throws IOException {
+    public TablutLocalRandomClient(String player, String name, int timeout, String ipAddress, int gameType) throws IOException {
         super(player);
         System.out.printf("You are %s player. Timeout = %d. IP address = %s\n", player, timeout, ipAddress);
         this.gameType = gameType;
