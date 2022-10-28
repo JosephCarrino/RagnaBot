@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameData {
+    public final static String stateSeparator = ";";
+    public final static String matrixSeparator = ",";
+    public final static int whiteWin = 1;
+    public final static int blackWin = 0;
+
     public List<State> states;
     public State.Turn finalResult;
 
@@ -14,20 +19,15 @@ public class GameData {
     }
 
     public void appendState(State state){
-        System.out.println(Thread.currentThread().getName() + " Appending ");
         this.states.add(state);
     }
 
     private String serializeState(State state){
-        String separator = ",";
         int boardLength = state.getBoard().length;
-
-        System.out.println("Ciao");
 
         StringBuilder blackMatrix = new StringBuilder();
         StringBuilder whiteMatrix = new StringBuilder();
         StringBuilder kingMatrix = new StringBuilder();
-
 
         for (int i = 0; i < boardLength; i++) {
             for (int j = 0; j < boardLength; j++) {
@@ -58,42 +58,23 @@ public class GameData {
             }
         }
 
-        System.out.println("Finished");
-
-
-        return blackMatrix + separator + whiteMatrix + separator + kingMatrix;
+        return blackMatrix + matrixSeparator + whiteMatrix + matrixSeparator + kingMatrix;
     }
 
     public String serialize() {
         if (this.finalResult.equals(State.Turn.DRAW)){
             return "";
         }
-
-        String stateSeparator = ";";
-        //String finalSeparator = ".";
-
-        int whiteWin = 1;
-        int blackWin = 0;
-
         StringBuilder result = new StringBuilder();
-
-        System.out.println("Serializing...");
-        System.out.println("State length : " + this.states.size());
-
-        for(int i = 0; i < this.states.size(); i++){
-            System.out.println(Thread.currentThread().getName() + " Serializing " + i );
-            State state = this.states.get(i);
+        for (State state : this.states) {
             result.append(this.serializeState(state)).append(stateSeparator);
-
         }
 
         int win = blackWin;
         if (this.finalResult.equals(State.Turn.WHITEWIN)){
             win = whiteWin;
         }
-
         result.append(win);
-
         return result.toString();
     }
 }
