@@ -114,8 +114,6 @@ public class Emulator {
 
             this.checkFinish();
         } catch (Exception exception) {
-            LocalEmulatorRunner.printAndDisablePrint(exception.toString());
-            System.exit(-1);
             exception.printStackTrace();
         }
     }
