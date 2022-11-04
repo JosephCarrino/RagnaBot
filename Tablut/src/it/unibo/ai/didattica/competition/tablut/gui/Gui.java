@@ -96,4 +96,8 @@ public class Gui {
 		}
 	}
 
+	public void close() {
+		frame.setVisible(false);
+	}
+
 }
