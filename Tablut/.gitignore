@@ -202,3 +202,6 @@ hs_err_pid*
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,eclipse
 
 prova/
+util/PMMLPrediction.java
+src/it/unibo/ai/didattica/competition/tablut/util/PMMLPrediction.java
+model/my_model.sav

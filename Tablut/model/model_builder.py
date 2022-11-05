@@ -20,6 +20,9 @@ from sklearn.utils import Bunch
 #Model exporting
 from sklearn2pmml import sklearn2pmml
 from sklearn2pmml.pipeline import PMMLPipeline
+import pickle
+
+filename = "my_model.sav"
 
 # Utils that given a log file, returns turns and endings from that turn
 def data_from_log(dir):
@@ -131,6 +134,23 @@ def show_accuracy(X, Y, model, set="default"):
     print(f"Accuracy score on {set} set is " + str(round(accuracy_score(Y, Y_model), 100)*100) + "%")
     return Y_model
 
+def load_model(filename):
+    return pickle.load(open(filename, "rb"))
+
+def predict_from_string(X):
+    X = list(X)
+    df = {}
+    for i in range(len(X)):
+        df["X" + str(i)] = int(X[i])
+    my_df = pd.DataFrame(df, index=[0])
+    result = predict(my_df)
+    print(str(result[0][0]) + "," + str(result[0][1]))
+    return result
+
+def predict(X):
+    model = load_model(filename)
+    Y = model.predict_proba(X)
+    return Y
 
 def main():
     my_seed = 0
@@ -164,7 +184,12 @@ def main():
         axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
     fig.savefig('rf_5trees.png')
 
-    sklearn2pmml(model, "boosting_model.pmml", with_repr=True)
+    # sklearn2pmml(model, "boosting_model.pmml", with_repr=True)
+    # my_x = np.reshape(Xtest[12, :], (243, -1))
+    # print(my_x.shape)
+    # predict(my_x.T)
+    predict_from_string("000000011111001000000010000000000000000000100000010000000000010000001000000000000000000000000000000000000000010000000000000000010000000000000000110000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000")
+    pickle.dump(model, open(filename, 'wb'))
 
 if __name__ == "__main__":
     main()
