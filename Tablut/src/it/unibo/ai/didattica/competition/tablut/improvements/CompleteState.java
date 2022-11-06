@@ -117,4 +117,43 @@ public class CompleteState {
 
         return possibleActions;
     }
+
+    public String serializeState(){
+        int boardLength = this.internalState.getBoard().length;
+
+        StringBuilder blackMatrix = new StringBuilder();
+        StringBuilder whiteMatrix = new StringBuilder();
+        StringBuilder kingMatrix = new StringBuilder();
+
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardLength; j++) {
+                State.Pawn pawn = this.internalState.getBoard()[i][j];
+                switch (pawn){
+                    case KING -> {
+                        kingMatrix.append(1);
+                        whiteMatrix.append(0);
+                        blackMatrix.append(0);
+                    }
+                    case WHITE -> {
+                        kingMatrix.append(0);
+                        whiteMatrix.append(1);
+                        blackMatrix.append(0);
+                    }
+                    case BLACK -> {
+                        kingMatrix.append(0);
+                        whiteMatrix.append(0);
+                        blackMatrix.append(1);
+                    }
+                    default -> {
+                        kingMatrix.append(0);
+                        whiteMatrix.append(0);
+                        blackMatrix.append(0);
+                    }
+                }
+
+            }
+        }
+
+        return blackMatrix + "" + whiteMatrix + "" + kingMatrix;
+    }
 }

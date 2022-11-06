@@ -4,13 +4,16 @@ package it.unibo.ai.didattica.competition.tablut.client;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.improvements.CompleteState;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Random;
 
 public class TablutAIClient extends TablutClient {
     int gameType;
     Game rules;
+
+    int blackWinIdx = 0;
+    int whiteWinIdx = 1;
 
     public TablutAIClient(String player, String name, int timeout, String ipAddress, int gameType) throws IOException {
         super(player, name, timeout, ipAddress);
@@ -58,6 +61,57 @@ public class TablutAIClient extends TablutClient {
         client.run();
     }
 
+    /**
+     * A util function that thanks to a Python3 model calculates the winning probability for both players
+     * @param serializedState The state you want to evaluate
+     * @return An array of winning probabilities
+     */
+    private Double[] getWinProbs(String serializedState){
+        String s = null;
+        String toRet = "";
+        Double[] winProbs = {0.0, 0.0};
+        try{
+            String myDir = "python3";
+            String myCmd = "./model/model_builder.py";
+            String[] cmdarray = {myDir, myCmd, serializedState}; 
+            Process p = Runtime.getRuntime().exec(cmdarray);
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            // BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+            while ((s = stdInput.readLine()) != null) {
+                toRet = toRet.concat(s);
+            }
+
+            String[] winStringProbs = toRet.split(",");
+            winProbs[0] = Double.parseDouble(winStringProbs[0]);
+            winProbs[1] = Double.parseDouble(winStringProbs[1]);
+        } catch ( IOException e ){
+            e.printStackTrace();
+        }
+        return winProbs;
+    }
+
+    /**
+     * Util function that calculates all next possible states from the current one
+     * @param possibleActions All legal actions that can be performed from current state
+     * @return An array of next possible serialized states
+     */
+    private String[] getPossibleSerializedStates( List<Action> possibleActions){
+        String[] toRet = new String[possibleActions.size()];
+        for (int i=0; i < possibleActions.size(); i++){
+            try{
+                Game dummyGame = this.getRules();
+                State currState = this.getCurrentState().clone();
+                State newState = dummyGame.checkMove(currState, possibleActions.get(i));
+                CompleteState serializer = new CompleteState(newState, dummyGame);
+                toRet[i] = serializer.serializeState();
+            } catch ( Exception e ){
+                e.printStackTrace();
+            }
+        }
+        return toRet;
+    }
+
     @Override
     public void run() {
         try {
@@ -66,6 +120,11 @@ public class TablutAIClient extends TablutClient {
             e.printStackTrace();
         }
         System.out.println("Running...");
+
+        int myProbIdx = blackWinIdx;
+        if (this.getPlayer().equals("W")){
+            myProbIdx = whiteWinIdx;
+        }
 
         while (true){
             try {
@@ -81,12 +140,26 @@ public class TablutAIClient extends TablutClient {
 
             if(turn.equals(player)) {
                 List<Action> actionList = completeState.getAllValidActions();
+                // String serializedState = completeState.serializeState();
+                String[] allNextState = getPossibleSerializedStates(actionList);
+                Double bestRate = 0.0;
+                Action bestAction = actionList.get(0);
+                for(int i=0; i < allNextState.length; i++){
+                    Double[] winningRate = getWinProbs(allNextState[i]);
+                    if (winningRate[myProbIdx] >= bestRate){
+                        bestRate = winningRate[myProbIdx];
+                        bestAction = actionList.get(i);
+                    }
+                }
+                System.out.println(String.valueOf(bestRate));
 
-                Random randomizer = new Random();
-                Action randomAction = actionList.get(randomizer.nextInt(actionList.size()));
+
+                // Random randomizer = new Random();
+                // Action randomAction = actionList.get(randomizer.nextInt(actionList.size()));
 
                 try {
-                    this.write(randomAction);
+                    // this.write(randomAction);
+                    this.write(bestAction);
                 } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
                 }
