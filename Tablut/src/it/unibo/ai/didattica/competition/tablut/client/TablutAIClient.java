@@ -5,8 +5,12 @@ import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.improvements.CompleteState;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 public class TablutAIClient extends TablutClient {
     int gameType;
@@ -88,6 +92,53 @@ public class TablutAIClient extends TablutClient {
         } catch ( IOException e ){
             e.printStackTrace();
         }
+
+
+        return winProbs;
+    }
+
+    /**
+     * Calculate winning probabilities of a series of serialized state
+     * @param batchStates The states you want to evaluate
+     * @return A matrix of winning probabilities: shape is (N x 2)
+     */
+    private Double[][] getWinProbsBatch(String[] batchStates){
+        int batchSize = batchStates.length;
+
+        String fileTemp = "temp.txt";
+        try{
+            Files.writeString(Paths.get(fileTemp), String.join("\n", batchStates), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (Exception ignored){
+        }
+
+        Double[][] winProbs = new Double[batchSize][2];
+        try{
+            String myDir = "python3";
+            String myCmd = "./model/model_batch_runner.py";
+            String[] cmdarray = {myDir, myCmd, fileTemp};
+            Process p = Runtime.getRuntime().exec(cmdarray);
+
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+
+            String output = stdInput.lines().collect(Collectors.joining());
+            String error = stdError.lines().collect(Collectors.joining());
+
+            String[] probabilitiesString = output.split(";");
+
+            for(int i = 0; i < probabilitiesString.length; i++){
+                String probabilityString = probabilitiesString[i];
+                String[] singleProbability = probabilityString.split(",");
+
+                winProbs[i][0] = Double.parseDouble(singleProbability[0]);
+                winProbs[i][1] = Double.parseDouble(singleProbability[1]);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return winProbs;
     }
 
@@ -122,7 +173,7 @@ public class TablutAIClient extends TablutClient {
         System.out.println("Running...");
 
         int myProbIdx = blackWinIdx;
-        if (this.getPlayer().equals("W")){
+        if (this.getPlayer().equals(State.Turn.WHITE)){
             myProbIdx = whiteWinIdx;
         }
 
@@ -142,6 +193,24 @@ public class TablutAIClient extends TablutClient {
                 List<Action> actionList = completeState.getAllValidActions();
                 // String serializedState = completeState.serializeState();
                 String[] allNextState = getPossibleSerializedStates(actionList);
+
+                Double[][] statesProbabilities = this.getWinProbsBatch(allNextState);
+
+                Double bestRate = 0.0;
+                Action bestAction = actionList.get(0);
+                for(int i = 0; i < statesProbabilities.length; i++) {
+                    Double winningProbability = statesProbabilities[i][myProbIdx];
+
+                    if(winningProbability > bestRate) {
+                        bestAction = actionList.get(i);
+                        bestRate = winningProbability;
+                    }
+
+                }
+
+                this.getWinProbsBatch(allNextState);
+                /*
+
                 Double bestRate = 0.0;
                 Action bestAction = actionList.get(0);
                 for(int i=0; i < allNextState.length; i++){
@@ -153,10 +222,11 @@ public class TablutAIClient extends TablutClient {
                 }
                 System.out.println(String.valueOf(bestRate));
 
+                */
+
 
                 // Random randomizer = new Random();
                 // Action randomAction = actionList.get(randomizer.nextInt(actionList.size()));
-
                 try {
                     // this.write(randomAction);
                     this.write(bestAction);
