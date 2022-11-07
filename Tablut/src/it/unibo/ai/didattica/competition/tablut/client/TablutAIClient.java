@@ -3,6 +3,7 @@
 package it.unibo.ai.didattica.competition.tablut.client;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.improvements.CompleteState;
+import it.unibo.ai.didattica.competition.tablut.util.PythonProcessInterface;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -19,11 +20,16 @@ public class TablutAIClient extends TablutClient {
     int blackWinIdx = 0;
     int whiteWinIdx = 1;
 
+    private final PythonProcessInterface modelProcessInterface;
+
     public TablutAIClient(String player, String name, int timeout, String ipAddress, int gameType) throws IOException {
         super(player, name, timeout, ipAddress);
         System.out.printf("You are %s player. Timeout = %d. IP address = %s\n", player, timeout, ipAddress);
         this.gameType = gameType;
         this.rules = this.getRules();
+
+        this.modelProcessInterface = new PythonProcessInterface("python3", "./model/model_communication_with_pipe.py");
+        this.modelProcessInterface.startPythonProcess();
     }
 
     /***
@@ -70,7 +76,8 @@ public class TablutAIClient extends TablutClient {
      * @param serializedState The state you want to evaluate
      * @return An array of winning probabilities
      */
-    private Double[] getWinProbs(String serializedState){
+    private Double[] getWinProbsOLD(String serializedState){
+
         String s = null;
         String toRet = "";
         Double[] winProbs = {0.0, 0.0};
@@ -95,6 +102,20 @@ public class TablutAIClient extends TablutClient {
 
 
         return winProbs;
+    }
+
+    private Double[] getWinProbability(String serializedState){
+
+        this.modelProcessInterface.writeToPipe(serializedState);
+        String probabilityString = this.modelProcessInterface.readFromPipe();
+
+        String[] singleProbability = probabilityString.split(",");
+
+        Double[] winningProbability = {0d,0d};
+        winningProbability[0] = Double.parseDouble(singleProbability[0]);
+        winningProbability[1] = Double.parseDouble(singleProbability[1]);
+
+        return winningProbability;
     }
 
     /**
@@ -194,6 +215,8 @@ public class TablutAIClient extends TablutClient {
                 // String serializedState = completeState.serializeState();
                 String[] allNextState = getPossibleSerializedStates(actionList);
 
+                /*
+
                 Double[][] statesProbabilities = this.getWinProbsBatch(allNextState);
 
                 Double bestRate = 0.0;
@@ -208,21 +231,19 @@ public class TablutAIClient extends TablutClient {
 
                 }
 
-                this.getWinProbsBatch(allNextState);
-                /*
+                this.getWinProbsBatch(allNextState);*/
+
 
                 Double bestRate = 0.0;
                 Action bestAction = actionList.get(0);
                 for(int i=0; i < allNextState.length; i++){
-                    Double[] winningRate = getWinProbs(allNextState[i]);
+                    Double[] winningRate = this.getWinProbability(allNextState[i]);
                     if (winningRate[myProbIdx] >= bestRate){
                         bestRate = winningRate[myProbIdx];
                         bestAction = actionList.get(i);
                     }
                 }
                 System.out.println(String.valueOf(bestRate));
-
-                */
 
 
                 // Random randomizer = new Random();
@@ -249,6 +270,7 @@ public class TablutAIClient extends TablutClient {
             case BLACKWIN -> winner = State.Turn.BLACK;
             case DRAW -> {
                 System.out.println("DRAW!");
+                this.modelProcessInterface.close();
                 System.exit(0);
             }
             default -> {
@@ -258,9 +280,12 @@ public class TablutAIClient extends TablutClient {
 
         if (winner.equals(player)) {
             System.out.println("YOU WIN!");
+            this.modelProcessInterface.close();
+
             System.exit(0);
         } else{
             System.out.println("YOU LOSE!");
+            this.modelProcessInterface.close();
             System.exit(0);
         }
     }

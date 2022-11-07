@@ -147,7 +147,6 @@ def predict_from_string(X):
         df["X" + str(i)] = int(X[i])
     my_df = pd.DataFrame(df, index=[0])
     result = predict(my_df)
-    print(str(result[0][0]) + "," + str(result[0][1]) + ";")
     return result
 
 def predict(X):
