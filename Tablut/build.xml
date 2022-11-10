@@ -129,6 +129,7 @@
             <arg line="${args}"/>
             <classpath>
                 <pathelement location="lib/gson-2.2.2.jar"/>
+                <pathelement location="lib/aima-core.jar"/>
                 <pathelement location="build"/>
             </classpath>
         </java>

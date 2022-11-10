@@ -2,7 +2,7 @@
 <PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
 		<Application name="SkLearn2PMML package" version="0.87.0"/>
-		<Timestamp>2022-11-04T17:10:29Z</Timestamp>
+		<Timestamp>2022-11-10T10:56:31Z</Timestamp>
 	</Header>
 	<MiningBuildTask>
 		<Extension name="repr">PMMLPipeline(steps=[('classifier', RandomForestClassifier(max_depth=2, max_features=3, n_estimators=9))])</Extension>
@@ -12,76 +12,79 @@
 			<Value value="0"/>
 			<Value value="1"/>
 		</DataField>
-		<DataField name="X2" optype="continuous" dataType="float"/>
-		<DataField name="X7" optype="continuous" dataType="float"/>
-		<DataField name="X18" optype="continuous" dataType="float"/>
-		<DataField name="X22" optype="continuous" dataType="float"/>
-		<DataField name="X37" optype="continuous" dataType="float"/>
-		<DataField name="X39" optype="continuous" dataType="float"/>
-		<DataField name="X45" optype="continuous" dataType="float"/>
+		<DataField name="X1" optype="continuous" dataType="float"/>
+		<DataField name="X29" optype="continuous" dataType="float"/>
+		<DataField name="X34" optype="continuous" dataType="float"/>
+		<DataField name="X44" optype="continuous" dataType="float"/>
 		<DataField name="X49" optype="continuous" dataType="float"/>
-		<DataField name="X51" optype="continuous" dataType="float"/>
-		<DataField name="X55" optype="continuous" dataType="float"/>
+		<DataField name="X53" optype="continuous" dataType="float"/>
 		<DataField name="X57" optype="continuous" dataType="float"/>
+		<DataField name="X58" optype="continuous" dataType="float"/>
 		<DataField name="X70" optype="continuous" dataType="float"/>
 		<DataField name="X72" optype="continuous" dataType="float"/>
-		<DataField name="X78" optype="continuous" dataType="float"/>
-		<DataField name="X100" optype="continuous" dataType="float"/>
-		<DataField name="X105" optype="continuous" dataType="float"/>
+		<DataField name="X79" optype="continuous" dataType="float"/>
+		<DataField name="X80" optype="continuous" dataType="float"/>
+		<DataField name="X98" optype="continuous" dataType="float"/>
 		<DataField name="X111" optype="continuous" dataType="float"/>
-		<DataField name="X122" optype="continuous" dataType="float"/>
-		<DataField name="X137" optype="continuous" dataType="float"/>
-		<DataField name="X139" optype="continuous" dataType="float"/>
-		<DataField name="X154" optype="continuous" dataType="float"/>
-		<DataField name="X164" optype="continuous" dataType="float"/>
-		<DataField name="X183" optype="continuous" dataType="float"/>
+		<DataField name="X128" optype="continuous" dataType="float"/>
+		<DataField name="X133" optype="continuous" dataType="float"/>
+		<DataField name="X151" optype="continuous" dataType="float"/>
+		<DataField name="X153" optype="continuous" dataType="float"/>
+		<DataField name="X161" optype="continuous" dataType="float"/>
+		<DataField name="X201" optype="continuous" dataType="float"/>
+		<DataField name="X204" optype="continuous" dataType="float"/>
+		<DataField name="X208" optype="continuous" dataType="float"/>
 	</DataDictionary>
 	<MiningModel functionName="classification" algorithmName="sklearn.ensemble._forest.RandomForestClassifier">
 		<MiningSchema>
 			<MiningField name="Y" usageType="target"/>
-			<MiningField name="X2"/>
-			<MiningField name="X7"/>
-			<MiningField name="X18"/>
-			<MiningField name="X22"/>
-			<MiningField name="X37"/>
-			<MiningField name="X39"/>
-			<MiningField name="X45"/>
+			<MiningField name="X1"/>
+			<MiningField name="X29"/>
+			<MiningField name="X34"/>
+			<MiningField name="X44"/>
 			<MiningField name="X49"/>
-			<MiningField name="X51"/>
-			<MiningField name="X55"/>
+			<MiningField name="X53"/>
 			<MiningField name="X57"/>
+			<MiningField name="X58"/>
 			<MiningField name="X70"/>
 			<MiningField name="X72"/>
-			<MiningField name="X78"/>
-			<MiningField name="X100"/>
-			<MiningField name="X105"/>
+			<MiningField name="X79"/>
+			<MiningField name="X80"/>
+			<MiningField name="X98"/>
 			<MiningField name="X111"/>
-			<MiningField name="X122"/>
-			<MiningField name="X137"/>
-			<MiningField name="X139"/>
-			<MiningField name="X154"/>
-			<MiningField name="X164"/>
-			<MiningField name="X183"/>
+			<MiningField name="X128"/>
+			<MiningField name="X133"/>
+			<MiningField name="X151"/>
+			<MiningField name="X153"/>
+			<MiningField name="X161"/>
+			<MiningField name="X201"/>
+			<MiningField name="X208"/>
+			<MiningField name="X204"/>
 		</MiningSchema>
 		<Output>
 			<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
 			<OutputField name="probability(1)" optype="continuous" dataType="double" feature="probability" value="1"/>
 		</Output>
+		<LocalTransformations>
+			<DerivedField name="double(X204)" optype="continuous" dataType="double">
+				<FieldRef field="X204"/>
+			</DerivedField>
+		</LocalTransformations>
 		<Segmentation multipleModelMethod="average" missingPredictionTreatment="returnMissing">
 			<Segment id="1">
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X55"/>
-						<MiningField name="X18"/>
+						<MiningField name="X128"/>
+						<MiningField name="X70"/>
 						<MiningField name="X72"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X55)" optype="continuous" dataType="double">
-							<FieldRef field="X55"/>
+						<DerivedField name="double(X128)" optype="continuous" dataType="double">
+							<FieldRef field="X128"/>
 						</DerivedField>
-						<DerivedField name="double(X18)" optype="continuous" dataType="double">
-							<FieldRef field="X18"/>
+						<DerivedField name="double(X70)" optype="continuous" dataType="double">
+							<FieldRef field="X70"/>
 						</DerivedField>
 						<DerivedField name="double(X72)" optype="continuous" dataType="double">
 							<FieldRef field="X72"/>
@@ -90,27 +93,27 @@
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X55)" operator="lessOrEqual" value="0.5"/>
-							<Node score="0" recordCount="241">
-								<SimplePredicate field="double(X18)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="131"/>
-								<ScoreDistribution value="1" recordCount="110"/>
+							<SimplePredicate field="double(X128)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="1815">
+								<SimplePredicate field="double(X70)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="848"/>
+								<ScoreDistribution value="1" recordCount="967"/>
 							</Node>
-							<Node score="1" recordCount="21">
+							<Node score="1" recordCount="207">
 								<True/>
-								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="21"/>
+								<ScoreDistribution value="0" recordCount="51"/>
+								<ScoreDistribution value="1" recordCount="156"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="25">
+						<Node score="1" recordCount="203">
 							<SimplePredicate field="double(X72)" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="25"/>
+							<ScoreDistribution value="0" recordCount="68"/>
+							<ScoreDistribution value="1" recordCount="135"/>
 						</Node>
-						<Node score="0" recordCount="7">
+						<Node score="1" recordCount="46">
 							<True/>
-							<ScoreDistribution value="0" recordCount="7"/>
-							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="0" recordCount="8"/>
+							<ScoreDistribution value="1" recordCount="38"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -120,44 +123,44 @@
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
 						<MiningField name="X111"/>
-						<MiningField name="X45"/>
-						<MiningField name="X70"/>
+						<MiningField name="X44"/>
+						<MiningField name="X1"/>
 					</MiningSchema>
 					<LocalTransformations>
 						<DerivedField name="double(X111)" optype="continuous" dataType="double">
 							<FieldRef field="X111"/>
 						</DerivedField>
-						<DerivedField name="double(X45)" optype="continuous" dataType="double">
-							<FieldRef field="X45"/>
+						<DerivedField name="double(X44)" optype="continuous" dataType="double">
+							<FieldRef field="X44"/>
 						</DerivedField>
-						<DerivedField name="double(X70)" optype="continuous" dataType="double">
-							<FieldRef field="X70"/>
+						<DerivedField name="double(X1)" optype="continuous" dataType="double">
+							<FieldRef field="X1"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
 							<SimplePredicate field="double(X111)" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="165">
-								<SimplePredicate field="double(X45)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="53"/>
-								<ScoreDistribution value="1" recordCount="112"/>
+							<Node score="1" recordCount="1355">
+								<SimplePredicate field="double(X44)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="674"/>
+								<ScoreDistribution value="1" recordCount="681"/>
 							</Node>
-							<Node score="0" recordCount="75">
+							<Node score="1" recordCount="486">
 								<True/>
-								<ScoreDistribution value="0" recordCount="69"/>
-								<ScoreDistribution value="1" recordCount="6"/>
+								<ScoreDistribution value="0" recordCount="132"/>
+								<ScoreDistribution value="1" recordCount="354"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="48">
-							<SimplePredicate field="double(X70)" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="19"/>
-							<ScoreDistribution value="1" recordCount="29"/>
+						<Node score="1" recordCount="353">
+							<SimplePredicate field="double(X1)" operator="lessOrEqual" value="0.5"/>
+							<ScoreDistribution value="0" recordCount="144"/>
+							<ScoreDistribution value="1" recordCount="209"/>
 						</Node>
-						<Node score="1" recordCount="6">
+						<Node score="1" recordCount="77">
 							<True/>
-							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="6"/>
+							<ScoreDistribution value="0" recordCount="13"/>
+							<ScoreDistribution value="1" recordCount="64"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -166,35 +169,32 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X105"/>
-						<MiningField name="X37"/>
+						<MiningField name="X29"/>
+						<MiningField name="double(X204)"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X105)" optype="continuous" dataType="double">
-							<FieldRef field="X105"/>
-						</DerivedField>
-						<DerivedField name="double(X37)" optype="continuous" dataType="double">
-							<FieldRef field="X37"/>
+						<DerivedField name="double(X29)" optype="continuous" dataType="double">
+							<FieldRef field="X29"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X105)" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="259">
-								<SimplePredicate field="double(X37)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="111"/>
-								<ScoreDistribution value="1" recordCount="148"/>
+							<SimplePredicate field="double(X204)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="1830">
+								<SimplePredicate field="double(X29)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="757"/>
+								<ScoreDistribution value="1" recordCount="1073"/>
 							</Node>
-							<Node score="0" recordCount="27">
+							<Node score="0" recordCount="386">
 								<True/>
-								<ScoreDistribution value="0" recordCount="23"/>
-								<ScoreDistribution value="1" recordCount="4"/>
+								<ScoreDistribution value="0" recordCount="197"/>
+								<ScoreDistribution value="1" recordCount="189"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="8">
+						<Node score="0" recordCount="55">
 							<True/>
-							<ScoreDistribution value="0" recordCount="8"/>
+							<ScoreDistribution value="0" recordCount="55"/>
 							<ScoreDistribution value="1" recordCount="0"/>
 						</Node>
 					</Node>
@@ -204,36 +204,36 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X22"/>
-						<MiningField name="X2"/>
+						<MiningField name="X208"/>
+						<MiningField name="X53"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X22)" optype="continuous" dataType="double">
-							<FieldRef field="X22"/>
+						<DerivedField name="double(X208)" optype="continuous" dataType="double">
+							<FieldRef field="X208"/>
 						</DerivedField>
-						<DerivedField name="double(X2)" optype="continuous" dataType="double">
-							<FieldRef field="X2"/>
+						<DerivedField name="double(X53)" optype="continuous" dataType="double">
+							<FieldRef field="X53"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X22)" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="168">
-								<SimplePredicate field="double(X2)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="72"/>
-								<ScoreDistribution value="1" recordCount="96"/>
+							<SimplePredicate field="double(X208)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="1967">
+								<SimplePredicate field="double(X53)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="941"/>
+								<ScoreDistribution value="1" recordCount="1026"/>
 							</Node>
-							<Node score="1" recordCount="53">
+							<Node score="1" recordCount="290">
 								<True/>
-								<ScoreDistribution value="0" recordCount="4"/>
-								<ScoreDistribution value="1" recordCount="49"/>
+								<ScoreDistribution value="0" recordCount="57"/>
+								<ScoreDistribution value="1" recordCount="233"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="73">
+						<Node score="1" recordCount="14">
 							<True/>
-							<ScoreDistribution value="0" recordCount="73"/>
-							<ScoreDistribution value="1" recordCount="0"/>
+							<ScoreDistribution value="0" recordCount="0"/>
+							<ScoreDistribution value="1" recordCount="14"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -243,35 +243,44 @@
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
 						<MiningField name="X57"/>
-						<MiningField name="X78"/>
+						<MiningField name="X80"/>
+						<MiningField name="X133"/>
 					</MiningSchema>
 					<LocalTransformations>
 						<DerivedField name="double(X57)" optype="continuous" dataType="double">
 							<FieldRef field="X57"/>
 						</DerivedField>
-						<DerivedField name="double(X78)" optype="continuous" dataType="double">
-							<FieldRef field="X78"/>
+						<DerivedField name="double(X80)" optype="continuous" dataType="double">
+							<FieldRef field="X80"/>
+						</DerivedField>
+						<DerivedField name="double(X133)" optype="continuous" dataType="double">
+							<FieldRef field="X133"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
 							<SimplePredicate field="double(X57)" operator="lessOrEqual" value="0.5"/>
-							<Node score="0" recordCount="276">
-								<SimplePredicate field="double(X78)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="160"/>
-								<ScoreDistribution value="1" recordCount="116"/>
+							<Node score="1" recordCount="1532">
+								<SimplePredicate field="double(X80)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="672"/>
+								<ScoreDistribution value="1" recordCount="860"/>
 							</Node>
-							<Node score="1" recordCount="15">
+							<Node score="1" recordCount="419">
 								<True/>
-								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="15"/>
+								<ScoreDistribution value="0" recordCount="161"/>
+								<ScoreDistribution value="1" recordCount="258"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="3">
+						<Node score="0" recordCount="305">
+							<SimplePredicate field="double(X133)" operator="lessOrEqual" value="0.5"/>
+							<ScoreDistribution value="0" recordCount="168"/>
+							<ScoreDistribution value="1" recordCount="137"/>
+						</Node>
+						<Node score="1" recordCount="15">
 							<True/>
-							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="3"/>
+							<ScoreDistribution value="0" recordCount="3"/>
+							<ScoreDistribution value="1" recordCount="12"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -280,45 +289,45 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X51"/>
+						<MiningField name="X151"/>
 						<MiningField name="X49"/>
-						<MiningField name="X164"/>
+						<MiningField name="X79"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X51)" optype="continuous" dataType="double">
-							<FieldRef field="X51"/>
+						<DerivedField name="double(X151)" optype="continuous" dataType="double">
+							<FieldRef field="X151"/>
 						</DerivedField>
 						<DerivedField name="double(X49)" optype="continuous" dataType="double">
 							<FieldRef field="X49"/>
 						</DerivedField>
-						<DerivedField name="double(X164)" optype="continuous" dataType="double">
-							<FieldRef field="X164"/>
+						<DerivedField name="double(X79)" optype="continuous" dataType="double">
+							<FieldRef field="X79"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X51)" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="185">
+							<SimplePredicate field="double(X151)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="1830">
 								<SimplePredicate field="double(X49)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="64"/>
-								<ScoreDistribution value="1" recordCount="121"/>
+								<ScoreDistribution value="0" recordCount="733"/>
+								<ScoreDistribution value="1" recordCount="1097"/>
 							</Node>
-							<Node score="0" recordCount="32">
+							<Node score="0" recordCount="415">
 								<True/>
-								<ScoreDistribution value="0" recordCount="18"/>
-								<ScoreDistribution value="1" recordCount="14"/>
+								<ScoreDistribution value="0" recordCount="257"/>
+								<ScoreDistribution value="1" recordCount="158"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="76">
-							<SimplePredicate field="double(X164)" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="76"/>
-							<ScoreDistribution value="1" recordCount="0"/>
+						<Node score="1" recordCount="16">
+							<SimplePredicate field="double(X79)" operator="lessOrEqual" value="0.5"/>
+							<ScoreDistribution value="0" recordCount="4"/>
+							<ScoreDistribution value="1" recordCount="12"/>
 						</Node>
-						<Node score="1" recordCount="1">
+						<Node score="1" recordCount="10">
 							<True/>
 							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="1"/>
+							<ScoreDistribution value="1" recordCount="10"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -327,35 +336,35 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X183"/>
-						<MiningField name="X137"/>
+						<MiningField name="X161"/>
+						<MiningField name="X34"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X183)" optype="continuous" dataType="double">
-							<FieldRef field="X183"/>
+						<DerivedField name="double(X161)" optype="continuous" dataType="double">
+							<FieldRef field="X161"/>
 						</DerivedField>
-						<DerivedField name="double(X137)" optype="continuous" dataType="double">
-							<FieldRef field="X137"/>
+						<DerivedField name="double(X34)" optype="continuous" dataType="double">
+							<FieldRef field="X34"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X183)" operator="lessOrEqual" value="0.5"/>
-							<Node score="0" recordCount="270">
-								<SimplePredicate field="double(X137)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="144"/>
-								<ScoreDistribution value="1" recordCount="126"/>
+							<SimplePredicate field="double(X161)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="2145">
+								<SimplePredicate field="double(X34)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="921"/>
+								<ScoreDistribution value="1" recordCount="1224"/>
 							</Node>
-							<Node score="1" recordCount="16">
+							<Node score="1" recordCount="91">
 								<True/>
-								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="16"/>
+								<ScoreDistribution value="0" recordCount="13"/>
+								<ScoreDistribution value="1" recordCount="78"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="8">
+						<Node score="0" recordCount="35">
 							<True/>
-							<ScoreDistribution value="0" recordCount="8"/>
+							<ScoreDistribution value="0" recordCount="35"/>
 							<ScoreDistribution value="1" recordCount="0"/>
 						</Node>
 					</Node>
@@ -365,45 +374,45 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X139"/>
-						<MiningField name="X100"/>
-						<MiningField name="X122"/>
+						<MiningField name="X201"/>
+						<MiningField name="X98"/>
+						<MiningField name="X58"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X139)" optype="continuous" dataType="double">
-							<FieldRef field="X139"/>
+						<DerivedField name="double(X201)" optype="continuous" dataType="double">
+							<FieldRef field="X201"/>
 						</DerivedField>
-						<DerivedField name="double(X100)" optype="continuous" dataType="double">
-							<FieldRef field="X100"/>
+						<DerivedField name="double(X98)" optype="continuous" dataType="double">
+							<FieldRef field="X98"/>
 						</DerivedField>
-						<DerivedField name="double(X122)" optype="continuous" dataType="double">
-							<FieldRef field="X122"/>
+						<DerivedField name="double(X58)" optype="continuous" dataType="double">
+							<FieldRef field="X58"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X139)" operator="lessOrEqual" value="0.5"/>
-							<Node score="1" recordCount="204">
-								<SimplePredicate field="double(X100)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="68"/>
-								<ScoreDistribution value="1" recordCount="136"/>
+							<SimplePredicate field="double(X201)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="2009">
+								<SimplePredicate field="double(X98)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="795"/>
+								<ScoreDistribution value="1" recordCount="1214"/>
 							</Node>
-							<Node score="0" recordCount="6">
+							<Node score="0" recordCount="150">
 								<True/>
-								<ScoreDistribution value="0" recordCount="3"/>
-								<ScoreDistribution value="1" recordCount="3"/>
+								<ScoreDistribution value="0" recordCount="78"/>
+								<ScoreDistribution value="1" recordCount="72"/>
 							</Node>
 						</Node>
-						<Node score="0" recordCount="81">
-							<SimplePredicate field="double(X122)" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="80"/>
+						<Node score="0" recordCount="87">
+							<SimplePredicate field="double(X58)" operator="lessOrEqual" value="0.5"/>
+							<ScoreDistribution value="0" recordCount="86"/>
 							<ScoreDistribution value="1" recordCount="1"/>
 						</Node>
-						<Node score="1" recordCount="3">
+						<Node score="0" recordCount="25">
 							<True/>
-							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="3"/>
+							<ScoreDistribution value="0" recordCount="23"/>
+							<ScoreDistribution value="1" recordCount="2"/>
 						</Node>
 					</Node>
 				</TreeModel>
@@ -412,45 +421,33 @@
 				<True/>
 				<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
 					<MiningSchema>
-						<MiningField name="X7"/>
-						<MiningField name="X154"/>
-						<MiningField name="X39"/>
+						<MiningField name="X153"/>
+						<MiningField name="double(X204)"/>
 					</MiningSchema>
 					<LocalTransformations>
-						<DerivedField name="double(X7)" optype="continuous" dataType="double">
-							<FieldRef field="X7"/>
-						</DerivedField>
-						<DerivedField name="double(X154)" optype="continuous" dataType="double">
-							<FieldRef field="X154"/>
-						</DerivedField>
-						<DerivedField name="double(X39)" optype="continuous" dataType="double">
-							<FieldRef field="X39"/>
+						<DerivedField name="double(X153)" optype="continuous" dataType="double">
+							<FieldRef field="X153"/>
 						</DerivedField>
 					</LocalTransformations>
 					<Node>
 						<True/>
 						<Node>
-							<SimplePredicate field="double(X7)" operator="lessOrEqual" value="0.5"/>
-							<Node score="0" recordCount="219">
-								<SimplePredicate field="double(X154)" operator="lessOrEqual" value="0.5"/>
-								<ScoreDistribution value="0" recordCount="141"/>
-								<ScoreDistribution value="1" recordCount="78"/>
+							<SimplePredicate field="double(X204)" operator="lessOrEqual" value="0.5"/>
+							<Node score="1" recordCount="2136">
+								<SimplePredicate field="double(X153)" operator="lessOrEqual" value="0.5"/>
+								<ScoreDistribution value="0" recordCount="943"/>
+								<ScoreDistribution value="1" recordCount="1193"/>
 							</Node>
-							<Node score="1" recordCount="3">
+							<Node score="1" recordCount="82">
 								<True/>
-								<ScoreDistribution value="0" recordCount="0"/>
-								<ScoreDistribution value="1" recordCount="3"/>
+								<ScoreDistribution value="0" recordCount="24"/>
+								<ScoreDistribution value="1" recordCount="58"/>
 							</Node>
 						</Node>
-						<Node score="1" recordCount="71">
-							<SimplePredicate field="double(X39)" operator="lessOrEqual" value="0.5"/>
-							<ScoreDistribution value="0" recordCount="7"/>
-							<ScoreDistribution value="1" recordCount="64"/>
-						</Node>
-						<Node score="1" recordCount="1">
+						<Node score="0" recordCount="53">
 							<True/>
-							<ScoreDistribution value="0" recordCount="0"/>
-							<ScoreDistribution value="1" recordCount="1"/>
+							<ScoreDistribution value="0" recordCount="53"/>
+							<ScoreDistribution value="1" recordCount="0"/>
 						</Node>
 					</Node>
 				</TreeModel>

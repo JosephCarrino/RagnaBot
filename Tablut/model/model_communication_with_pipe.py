@@ -15,7 +15,8 @@ if __name__ == "__main__":
     s = read_from_pipe()
     while s not in ['QUIT']:
         result = predict_from_string(s)
-        msg = str(result[0][0]) + "," + str(result[0][1])
+        #msg = str(result[0][0]) + "," + str(result[0][1])
+        msg = f"{1 - result[0]},{result[0]}"
         write_to_pipe(msg)
         s = read_from_pipe()
 
