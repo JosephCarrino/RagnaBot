@@ -22,9 +22,9 @@ public class TablutAIClient extends TablutClient{
         System.out.printf("You are %s player. Timeout = %d. IP address = %s\n", player, timeout, ipAddress);
         this.gameType = gameType;
         this.timeout = timeout;
+        this.modelToUse = modelToUse;
         this.rules = this.getGameModel();
 
-        this.modelToUse = modelToUse;
     }
 
     /***
@@ -62,9 +62,10 @@ public class TablutAIClient extends TablutClient{
             ipAddress = args[3];
         }
 
-        String modelToUse = "model.sav";
+        String modelToUse = "./Tablut/model/regressor.sav";
         if (args.length >= 5){
             modelToUse = args[4];
+            System.out.println("Ciao");
         }
 
         TablutAIClient client = new TablutAIClient(player, name, timeout, ipAddress, 4, modelToUse);
