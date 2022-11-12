@@ -1,5 +1,5 @@
 import sys
-from model_builder import predict_from_string
+from model_builder import predict_from_string, load_model, string_to_dataframe, string_to_input
 
 
 def read_from_pipe():
@@ -12,12 +12,22 @@ def write_to_pipe(msg):
 
 
 if __name__ == "__main__":
+
+    if len(sys.argv) > 1:
+        model_path = str(sys.argv[1])
+    else:
+        raise Exception("Not enough argument given")
+
+    model = load_model(model_path)
+
+
+
     s = read_from_pipe()
     while s not in ['QUIT']:
-        result = predict_from_string(s)
-        #msg = str(result[0][0]) + "," + str(result[0][1])
-        msg = f"{1 - result[0]},{result[0]}"
-        write_to_pipe(msg)
+        df = string_to_input(s)
+        result = model.predict(df)
+
+        write_to_pipe(str(result[0]))
         s = read_from_pipe()
 
     sys.exit(1)

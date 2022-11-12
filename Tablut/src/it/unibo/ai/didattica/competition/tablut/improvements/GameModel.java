@@ -7,36 +7,49 @@ import it.unibo.ai.didattica.competition.tablut.util.PythonProcessInterface;
 
 import java.util.List;
 import java.io.*;
+import java.util.Map;
 
-public class GameRules <T extends Game> implements aima.core.search.adversarial.Game<State, Action, State.Turn> {
-    public T rules;
+public class GameModel implements aima.core.search.adversarial.Game<State, Action, State.Turn> {
+    public Game rules;
     public static final int blackWinIdx = 0;
     public static final int whiteWinIdx = 1;
 
+    private final Map<String, Double> serializedStateToValue;
+
     private final PythonProcessInterface modelProcessInterface;
 
-    public GameRules(T rules){
+    public GameModel(Game rules, String modelToUse){
         this.rules = rules;
+        this.serializedStateToValue = new MaxSizeHashMap<>(150000);
 
         try{
             this.modelProcessInterface = new PythonProcessInterface("python3", "./model/model_communication_with_pipe.py");
-            this.modelProcessInterface.startPythonProcess();
+            this.modelProcessInterface.startPythonProcess(new String[]{modelToUse});
         } catch(IOException e){
             throw new RuntimeException();
         }
 
+
+
     }
 
     private Double[] getWinProbability(String serializedState){
+        if (this.serializedStateToValue.containsKey(serializedState)){
+            Double value = this.serializedStateToValue.get(serializedState);
+            return new Double[]{value, 1 - value};
+        }
+
 
         this.modelProcessInterface.writeToPipe(serializedState);
         String probabilityString = this.modelProcessInterface.readFromPipe();
 
-        String[] singleProbability = probabilityString.split(",");
+        //String[] singleProbability = probabilityString.split(",");
 
         Double[] winningProbability = {0d,0d};
-        winningProbability[0] = Double.parseDouble(singleProbability[0]);
-        winningProbability[1] = Double.parseDouble(singleProbability[1]);
+        winningProbability[1] = Double.parseDouble(probabilityString);//1 - winningProbability[0];
+        winningProbability[0] = 1 - winningProbability[1];
+
+        this.serializedStateToValue.put(serializedState, winningProbability[0]);
 
         return winningProbability;
     }
@@ -80,6 +93,31 @@ public class GameRules <T extends Game> implements aima.core.search.adversarial.
 
     @Override
     public double getUtility(State state, State.Turn turn) {
+        if(this.isTerminal(state)){
+            State.Turn winnerPlayer = state.getTurn();
+            switch (turn){
+                case WHITE -> {
+                    if (winnerPlayer.equals(State.Turn.WHITEWIN))
+                        return Double.POSITIVE_INFINITY;
+                    else if (winnerPlayer.equals(State.Turn.BLACKWIN)){
+                        return Double.NEGATIVE_INFINITY;
+                    } else {
+                        return 0;
+                    }
+                }
+                case BLACK -> {
+                    if (winnerPlayer.equals(State.Turn.WHITEWIN))
+                        return Double.NEGATIVE_INFINITY;
+                    else if (winnerPlayer.equals(State.Turn.BLACKWIN)){
+                        return Double.POSITIVE_INFINITY;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+
+        }
+
         CompleteState completeState = new CompleteState(state, this.rules);
         String serializedState = completeState.serializeState();
 
