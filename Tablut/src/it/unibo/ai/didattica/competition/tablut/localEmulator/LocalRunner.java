@@ -129,7 +129,7 @@ public abstract class LocalRunner {
         printAndDisablePrint("\nNumber of first player wins " + firstPlayerWin + ". Number of second player wins " + secondPlayerWin + ". Number of draw " + draw);
 
         Files.writeString(Paths.get(fileOut), serializedGameData.toString(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        System.exit(1);
+        // System.exit(1);
     }
 
     /**

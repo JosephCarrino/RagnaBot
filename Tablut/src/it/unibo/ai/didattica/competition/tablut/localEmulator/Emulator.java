@@ -52,7 +52,7 @@ public class Emulator {
             case 4 -> {
                 this.state = new StateTablut();
                 this.state.setTurn(State.Turn.WHITE);
-                this.rules = new GameAshtonTablut(10, 0, "garbage", "fake", "fake");
+                this.rules = new GameAshtonTablut(2, 1000, "garbage", "fake", "fake");
             }
             default -> {
                 System.out.println("Error in game selection");

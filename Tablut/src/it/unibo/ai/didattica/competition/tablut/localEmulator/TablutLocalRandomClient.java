@@ -1,6 +1,5 @@
 package it.unibo.ai.didattica.competition.tablut.localEmulator;
 
-import it.unibo.ai.didattica.competition.tablut.client.TablutAIClient;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.improvements.CompleteState;
 
@@ -17,45 +16,6 @@ public class TablutLocalRandomClient extends TablutLocalClient {
         System.out.printf("You are %s player. Timeout = %d. IP address = %s\n", player, timeout, ipAddress);
         this.gameType = gameType;
         this.rules = this.getRules();
-    }
-
-    /***
-     *
-     * @param args They are passed using '-Dargs="{color} {playername} {timeout} {ipaddress}"', only 'color' is required
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        String player = "";
-        //String player = "WHITE";
-        String name = "random";
-        String ipAddress = "localhost";
-        int timeout = 60;
-        System.out.println(args.length);
-        if (args.length < 1) {
-            System.out.println("You must specify which player you are (black or white)");
-            System.exit(-1);
-        } else {
-            player = args[0];
-        }
-
-        if (args.length >= 2)
-            name = args[1];
-
-        if (args.length >= 3){
-            try {
-                timeout = Integer.parseInt(args[2]);
-            } catch (Exception e) {
-                System.out.println("Timeout must be an integer value");
-                System.exit(-1);
-            }
-        }
-
-        if (args.length == 4) {
-            ipAddress = args[3];
-        }
-
-        TablutAIClient client = new TablutAIClient(player, name, timeout, ipAddress, 4);
-        client.run();
     }
 
     @Override
