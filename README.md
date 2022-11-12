@@ -62,9 +62,9 @@ ant ragnabot -Dargs="BLACK  {playerName} {timeout} {ipAddress}"
 In alternative, a `ragnabot.sh` file has been provided:
 
 ```
-./Tablut/ragnabot.sh WHITE {playerName} {timeout} {ipAddress}
+./ragnabot.sh WHITE {playerName} {timeout} {ipAddress}
 
-./Tablut/ragnabot.sh BLACK {playerName} {timeout} {ipAddress}
+./ragnabot.sh BLACK {playerName} {timeout} {ipAddress}
 ```
 
 

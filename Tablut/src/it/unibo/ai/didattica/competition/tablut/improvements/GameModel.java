@@ -20,7 +20,7 @@ public class GameModel implements aima.core.search.adversarial.Game<State, Actio
 
     public GameModel(Game rules, String modelToUse){
         this.rules = rules;
-        this.serializedStateToValue = new MaxSizeHashMap<>(150000);
+        this.serializedStateToValue = new MaxSizeHashMap<>(1500000);
 
         try{
             this.modelProcessInterface = new PythonProcessInterface("python3", "./model/model_communication_with_pipe.py");

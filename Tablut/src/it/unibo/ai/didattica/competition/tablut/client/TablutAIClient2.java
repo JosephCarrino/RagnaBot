@@ -1,14 +1,15 @@
 
 
 package it.unibo.ai.didattica.competition.tablut.client;
+
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.improvements.GameModel;
 import it.unibo.ai.didattica.competition.tablut.improvements.Player;
 import it.unibo.ai.didattica.competition.tablut.improvements.PlayerIterativeDeepening;
 
-import java.io.*;
+import java.io.IOException;
 
-public class TablutAIClient extends TablutClient{
+public class TablutAIClient2 extends TablutClient{
     int gameType;
     int timeout;
     GameModel rules;
@@ -17,7 +18,7 @@ public class TablutAIClient extends TablutClient{
     public Player player;
 
 
-    public TablutAIClient(String player, String name, int timeout, String ipAddress, int gameType, String modelToUse) throws IOException {
+    public TablutAIClient2(String player, String name, int timeout, String ipAddress, int gameType, String modelToUse) throws IOException {
         super(player, name, timeout, ipAddress);
         System.out.printf("You are %s player. Timeout = %d. IP address = %s\n", player, timeout, ipAddress);
         this.gameType = gameType;
@@ -67,13 +68,13 @@ public class TablutAIClient extends TablutClient{
             modelToUse = args[4];
         }
 
-        TablutAIClient client = new TablutAIClient(player, name, timeout, ipAddress, 4, modelToUse);
+        TablutAIClient2 client = new TablutAIClient2(player, name, timeout, ipAddress, 4, modelToUse);
         client.run();
     }
 
     @Override
     public void run() {
-        this.player = new PlayerIterativeDeepening(this.getGameModel(), 0, 2, this.timeout-2);
+        this.player = new PlayerIterativeDeepening(this.getGameModel(), 0, 1, this.timeout-2);
 
         try {
             this.declareName();
