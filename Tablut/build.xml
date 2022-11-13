@@ -135,6 +135,17 @@
         </java>
     </target>
 
+    <target name="ragnabot2">
+        <java classname="it.unibo.ai.didattica.competition.tablut.client.TablutAIClient2" fork="true">
+            <arg line="${args}"/>
+            <classpath>
+                <pathelement location="lib/gson-2.2.2.jar"/>
+                <pathelement location="lib/aima-core.jar"/>
+                <pathelement location="build"/>
+            </classpath>
+        </java>
+    </target>
+
 
 
 </project>
