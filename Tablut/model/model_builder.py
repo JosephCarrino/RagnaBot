@@ -104,7 +104,8 @@ def get_model(X, Y, seed, max_depth=found_max_depth):
     n_pawns_kind = 9
     n_out_situations = 3
     # model = RandomForestClassifier(max_depth=max_depth, n_estimators=n_pawns_kind, max_features=n_out_situations)
-    model = MLPRegressor(hidden_layer_sizes=(5, 4, 3), learning_rate_init=0.01, solver="adam")
+    model = MLPRegressor(hidden_layer_sizes=(150, 20), learning_rate_init=0.0001, solver="adam", max_iter=400)
+
     #np.random.seed(seed)
 
     """

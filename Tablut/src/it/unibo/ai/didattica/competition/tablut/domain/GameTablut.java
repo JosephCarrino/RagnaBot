@@ -70,11 +70,11 @@ public class GameTablut implements Game {
 	 */
 	public State checkMove(State state, Action a) throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException, ThroneException, OccupitedException
 	{
-		//this.loggGame.fine(a.toString());
+		////this.loggGame.fine(a.toString());
 		//controllo la mossa
 		if(a.getTo().length()!=2 || a.getFrom().length()!=2)
 		{
-			this.loggGame.warning("Formato mossa errato");
+			//this.loggGame.warning("Formato mossa errato");
 			throw new ActionException(a);
 		}
 		int columnFrom = a.getColumnFrom();
@@ -85,28 +85,28 @@ public class GameTablut implements Game {
 		//controllo se sono fuori dal tabellone
 		if(columnFrom>state.getBoard().length-1 || rowFrom>state.getBoard().length-1 || rowTo>state.getBoard().length-1 || columnTo>state.getBoard().length-1 || columnFrom<0 || rowFrom<0 || rowTo<0 || columnTo<0)
 		{
-			this.loggGame.warning("Mossa fuori tabellone");
+			//this.loggGame.warning("Mossa fuori tabellone");
 			throw new BoardException(a);			
 		}
 		
 		//controllo che non vada sul trono
 		if(state.getPawn(rowTo, columnTo).equalsPawn(State.Pawn.THRONE.toString()))
 		{
-			this.loggGame.warning("Mossa sul trono");
+			//this.loggGame.warning("Mossa sul trono");
 			throw new ThroneException(a);
 		}
 		
 		//controllo la casella di arrivo
 		if(!state.getPawn(rowTo, columnTo).equalsPawn(State.Pawn.EMPTY.toString()))
 		{
-			this.loggGame.warning("Mossa sopra una casella occupata");
+			//this.loggGame.warning("Mossa sopra una casella occupata");
 			throw new OccupitedException(a);
 		}
 		
 		//controllo se cerco di stare fermo
 		if(rowFrom==rowTo && columnFrom==columnTo)
 		{
-			this.loggGame.warning("Nessuna mossa");
+			//this.loggGame.warning("Nessuna mossa");
 			throw new StopException(a);
 		}
 		
@@ -115,7 +115,7 @@ public class GameTablut implements Game {
 		{
 			if(!state.getPawn(rowFrom, columnFrom).equalsPawn("W") && !state.getPawn(rowFrom, columnFrom).equalsPawn("K"))
 			{
-				this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di muovere una pedina avversaria");
+				//this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di muovere una pedina avversaria");
 				throw new PawnException(a);
 			}
 		}
@@ -123,7 +123,7 @@ public class GameTablut implements Game {
 		{
 			if(!state.getPawn(rowFrom, columnFrom).equalsPawn("B"))
 			{
-				this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di muovere una pedina avversaria");
+				//this.loggGame.warning("Giocatore "+a.getTurn()+" cerca di muovere una pedina avversaria");
 				throw new PawnException(a);
 			}
 		}
@@ -131,7 +131,7 @@ public class GameTablut implements Game {
 		//controllo di non muovere in diagonale
 		if(rowFrom != rowTo && columnFrom != columnTo)
 		{
-			this.loggGame.warning("Mossa in diagonale");
+			//this.loggGame.warning("Mossa in diagonale");
 			throw new DiagonalException(a);
 		}
 		
@@ -144,7 +144,7 @@ public class GameTablut implements Game {
 				{
 					if(!state.getPawn(rowFrom, i).equalsPawn(State.Pawn.EMPTY.toString()))
 					{
-						this.loggGame.warning("Mossa che scavalca una pedina");
+						//this.loggGame.warning("Mossa che scavalca una pedina");
 						throw new ClimbingException(a);
 					}
 				}
@@ -155,7 +155,7 @@ public class GameTablut implements Game {
 				{
 					if(!state.getPawn(rowFrom, i).equalsPawn(State.Pawn.EMPTY.toString()))
 					{
-						this.loggGame.warning("Mossa che scavalca una pedina");
+						//this.loggGame.warning("Mossa che scavalca una pedina");
 						throw new ClimbingException(a);
 					}
 				}
@@ -169,7 +169,7 @@ public class GameTablut implements Game {
 				{
 					if(!state.getPawn(i, columnFrom).equalsPawn(State.Pawn.EMPTY.toString()) && !state.getPawn(i, columnFrom).equalsPawn(State.Pawn.THRONE.toString()))
 					{
-						this.loggGame.warning("Mossa che scavalca una pedina");
+						//this.loggGame.warning("Mossa che scavalca una pedina");
 						throw new ClimbingException(a);
 					}
 				}
@@ -180,7 +180,7 @@ public class GameTablut implements Game {
 				{
 					if(!state.getPawn(i, columnFrom).equalsPawn(State.Pawn.EMPTY.toString()) && !state.getPawn(i, columnFrom).equalsPawn(State.Pawn.THRONE.toString()))
 					{
-						this.loggGame.warning("Mossa che scavalca una pedina");
+						//this.loggGame.warning("Mossa che scavalca una pedina");
 						throw new ClimbingException(a);
 					}
 				}
@@ -200,7 +200,7 @@ public class GameTablut implements Game {
 			state = this.checkCaptureWhite(state, a);
 		}
 		
-		this.loggGame.fine("Stato: "+state.toString());
+		//this.loggGame.fine("Stato: "+state.toString());
 		
 		return state;
 	}
@@ -216,7 +216,7 @@ public class GameTablut implements Game {
 		State.Pawn pawn = state.getPawn(a.getRowFrom(), a.getColumnFrom());
 		State.Pawn[][] newBoard = state.getBoard();
 		//State newState = new State();
-		this.loggGame.fine("Movimento pedina");
+		//this.loggGame.fine("Movimento pedina");
 		//libero il trono o una casella qualunque
 		if(newBoard.length==9)
 		{
@@ -273,28 +273,28 @@ public class GameTablut implements Game {
 		{
 			state.removePawn(a.getRowTo(), a.getColumnTo()+1);
 			this.movesWithutCapturing=-1;
-			this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+			//this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 		}
 		//controllo se mangio a sinistra
 		if(a.getColumnTo()>1 && state.getPawn(a.getRowTo(), a.getColumnTo()-1).equalsPawn("B") && (state.getPawn(a.getRowTo(), a.getColumnTo()-2).equalsPawn("W")||state.getPawn(a.getRowTo(), a.getColumnTo()-2).equalsPawn("T")||state.getPawn(a.getRowTo(), a.getColumnTo()-2).equalsPawn("K")))
 		{
 			state.removePawn(a.getRowTo(), a.getColumnTo()-1);
 			this.movesWithutCapturing=-1;
-			this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+			//this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 		}
 		//controllo se mangio sopra
 		if(a.getRowTo()>1 && state.getPawn(a.getRowTo()-1, a.getColumnTo()).equalsPawn("B") && (state.getPawn(a.getRowTo()-2, a.getColumnTo()).equalsPawn("W")||state.getPawn(a.getRowTo()-2, a.getColumnTo()).equalsPawn("T")||state.getPawn(a.getRowTo()-2, a.getColumnTo()).equalsPawn("K")))
 		{
 			state.removePawn(a.getRowTo()-1, a.getColumnTo());
 			this.movesWithutCapturing=-1;
-			this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
 		}
 		//controllo se mangio sotto
 		if(a.getRowTo()<state.getBoard().length-2 && state.getPawn(a.getRowTo()+1, a.getColumnTo()).equalsPawn("B") && (state.getPawn(a.getRowTo()+2, a.getColumnTo()).equalsPawn("W")||state.getPawn(a.getRowTo()+2, a.getColumnTo()).equalsPawn("T")||state.getPawn(a.getRowTo()+2, a.getColumnTo()).equalsPawn("K")))
 		{
 			state.removePawn(a.getRowTo()+1, a.getColumnTo());
 			this.movesWithutCapturing=-1;
-			this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+			//this.loggGame.fine("Pedina nera rimossa in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 		}
 		//controllo se ho vinto
 		if(a.getRowTo()==0 || a.getRowTo()==state.getBoard().length-1 || a.getColumnTo()==0 || a.getColumnTo()==state.getBoard().length-1)
@@ -302,7 +302,7 @@ public class GameTablut implements Game {
 			if(state.getPawn(a.getRowTo(), a.getColumnTo()).equalsPawn("K"))
 			{
 				state.setTurn(State.Turn.WHITEWIN);
-				this.loggGame.fine("Bianco vince con re in "+a.getTo());
+				//this.loggGame.fine("Bianco vince con re in "+a.getTo());
 			}
 		}
 		
@@ -310,7 +310,7 @@ public class GameTablut implements Game {
 		if(this.movesWithutCapturing>=this.movesDraw && (state.getTurn().equalsTurn("B")||state.getTurn().equalsTurn("W")))
 		{
 			state.setTurn(State.Turn.DRAW);
-			this.loggGame.fine("Stabilito un pareggio per troppe mosse senza mangiare");
+			//this.loggGame.fine("Stabilito un pareggio per troppe mosse senza mangiare");
 		}
 		this.movesWithutCapturing++;
 		return state;
@@ -327,14 +327,14 @@ public class GameTablut implements Game {
 		//controllo se mangio a destra
 		if(a.getColumnTo()<state.getBoard().length-2 && (state.getPawn(a.getRowTo(), a.getColumnTo()+1).equalsPawn("W")||state.getPawn(a.getRowTo(), a.getColumnTo()+1).equalsPawn("K")) && (state.getPawn(a.getRowTo(), a.getColumnTo()+2).equalsPawn("B")||state.getPawn(a.getRowTo(), a.getColumnTo()+2).equalsPawn("T")))
 		{
-			//nero-re-trono N.B. No indexOutOfBoundException perchè se il re si trovasse sul bordo il giocatore bianco avrebbe già vinto
+			//nero-re-trono N.B. No indexOutOfBoundException perchï¿½ se il re si trovasse sul bordo il giocatore bianco avrebbe giï¿½ vinto
 			if(state.getPawn(a.getRowTo(), a.getColumnTo()+1).equalsPawn("K") && state.getPawn(a.getRowTo(), a.getColumnTo()+2).equalsPawn("T"))
 			{
 				//ho circondato su 3 lati il re?
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 				}
 			}
 			//nero-re-nero
@@ -346,19 +346,19 @@ public class GameTablut implements Game {
 					if(!(a.getRowTo()*2 + 1==9 && state.getBoard().length==9) && !(a.getRowTo()*2 + 1==7 && state.getBoard().length==7))
 					{
 						state.setTurn(State.Turn.BLACKWIN);
-						this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+						//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 					}	
 				}						
 				//ho circondato su 3 lati il re?
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("T"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 				}
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("T") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 				}
 			}			
 			//nero-bianco-trono/nero
@@ -366,7 +366,7 @@ public class GameTablut implements Game {
 			{
 				state.removePawn(a.getRowTo(), a.getColumnTo()+1);
 				this.movesWithutCapturing=-1;
-				this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
+				//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()+1));
 			}
 			
 		}
@@ -380,7 +380,7 @@ public class GameTablut implements Game {
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 				}
 			}
 			//nero-re-nero
@@ -392,19 +392,19 @@ public class GameTablut implements Game {
 					if(!(a.getRowTo()*2 + 1==9 && state.getBoard().length==9) && !(a.getRowTo()*2 + 1==7 && state.getBoard().length==7))
 					{
 						state.setTurn(State.Turn.BLACKWIN);
-						this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+						//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 					}
 				}
 				//ho circondato su 3 lati il re?
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("T"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 				}
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("T") && state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 				}
 			}
 			//trono/nero-bianco-nero
@@ -412,7 +412,7 @@ public class GameTablut implements Game {
 			{
 				state.removePawn(a.getRowTo(), a.getColumnTo()-1);
 				this.movesWithutCapturing=-1;
-				this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+				//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 			}
 		}
 		//controllo se mangio sopra
@@ -425,7 +425,7 @@ public class GameTablut implements Game {
 				if(state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
 				}
 			}			
 			//nero-re-nero
@@ -435,12 +435,12 @@ public class GameTablut implements Game {
 				if(state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("T"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 				}
 				if(state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("T") && state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 				}
 				//mangio il re?
 				if(!state.getPawn(a.getRowTo()-1, a.getColumnTo()-1).equalsPawn("T") && !state.getPawn(a.getRowTo()-1, a.getColumnTo()+1).equalsPawn("T"))
@@ -448,7 +448,7 @@ public class GameTablut implements Game {
 					if(!(a.getRowTo()*2 + 1==9 && state.getBoard().length==9) && !(a.getRowTo()*2 + 1==7 && state.getBoard().length==7))
 					{
 						state.setTurn(State.Turn.BLACKWIN);
-						this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
+						//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo(), a.getColumnTo()-1));
 					}
 				}
 			}			
@@ -457,7 +457,7 @@ public class GameTablut implements Game {
 			{
 				state.removePawn(a.getRowTo()-1, a.getColumnTo());
 				this.movesWithutCapturing=-1;
-				this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
+				//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo()-1, a.getColumnTo()));
 			}
 		}
 		//controllo se mangio sotto
@@ -470,7 +470,7 @@ public class GameTablut implements Game {
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 				}
 			}			
 			//nero-re-nero
@@ -480,12 +480,12 @@ public class GameTablut implements Game {
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("B") && state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("T"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 				}
 				if(state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("T") && state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("B"))
 				{
 					state.setTurn(State.Turn.BLACKWIN);
-					this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+					//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 				}
 				//mangio il re?
 				if(!state.getPawn(a.getRowTo()+1, a.getColumnTo()+1).equalsPawn("T") && !state.getPawn(a.getRowTo()+1, a.getColumnTo()-1).equalsPawn("T"))
@@ -493,7 +493,7 @@ public class GameTablut implements Game {
 					if(!(a.getRowTo()*2 + 1==9 && state.getBoard().length==9) && !(a.getRowTo()*2 + 1==7 && state.getBoard().length==7))
 					{
 						state.setTurn(State.Turn.BLACKWIN);
-						this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+						//this.loggGame.fine("Nero vince con re catturato in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 					}
 				}
 			}		
@@ -502,7 +502,7 @@ public class GameTablut implements Game {
 			{
 				state.removePawn(a.getRowTo()+1, a.getColumnTo());
 				this.movesWithutCapturing=-1;
-				this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
+				//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(a.getRowTo()+1, a.getColumnTo()));
 			}			
 		}
 		//controllo il re completamente circondato
@@ -511,7 +511,7 @@ public class GameTablut implements Game {
 			if(state.getPawn(3, 4).equalsPawn("B") && state.getPawn(4, 3).equalsPawn("B") && state.getPawn(5, 4).equalsPawn("B") && state.getPawn(4, 5).equalsPawn("B"))
 			{
 				state.setTurn(State.Turn.BLACKWIN);
-				this.loggGame.fine("Nero vince con re catturato sul trono");
+				//this.loggGame.fine("Nero vince con re catturato sul trono");
 			}
 		}
 		if(state.getPawn(3, 3).equalsPawn(State.Pawn.KING.toString()) && state.getBoard().length==7)
@@ -519,7 +519,7 @@ public class GameTablut implements Game {
 			if(state.getPawn(3, 4).equalsPawn("B") && state.getPawn(4, 3).equalsPawn("B") && state.getPawn(2, 3).equalsPawn("B") && state.getPawn(3, 2).equalsPawn("B"))
 			{
 				state.setTurn(State.Turn.BLACKWIN);
-				this.loggGame.fine("Nero vince con re catturato sul trono");
+				//this.loggGame.fine("Nero vince con re catturato sul trono");
 			}
 		}
 		//controllo regola 11
@@ -531,7 +531,7 @@ public class GameTablut implements Game {
 				{
 					state.removePawn(3, 4);
 					this.movesWithutCapturing=-1;
-					this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(3, 4));
+					//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(3, 4));
 				}
 			}
 			if(a.getColumnTo()==4 && a.getRowTo()==6)
@@ -540,7 +540,7 @@ public class GameTablut implements Game {
 				{
 					state.removePawn(5, 4);
 					this.movesWithutCapturing=-1;
-					this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(5, 4));
+					//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(5, 4));
 				}
 			}
 			if(a.getColumnTo()==2 && a.getRowTo()==4)
@@ -549,7 +549,7 @@ public class GameTablut implements Game {
 				{
 					state.removePawn(4, 3);
 					this.movesWithutCapturing=-1;
-					this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(4, 3));
+					//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(4, 3));
 				}
 			}
 			if(a.getColumnTo()==6 && a.getRowTo()==4)
@@ -558,7 +558,7 @@ public class GameTablut implements Game {
 				{
 					state.removePawn(4, 5);
 					this.movesWithutCapturing=-1;
-					this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(4, 5));
+					//this.loggGame.fine("Pedina bianca rimossa in: "+state.getBox(4, 5));
 				}
 			}
 		}
@@ -568,7 +568,7 @@ public class GameTablut implements Game {
 		if(this.movesWithutCapturing>=this.movesDraw && (state.getTurn().equalsTurn("B")||state.getTurn().equalsTurn("W")))
 		{
 			state.setTurn(State.Turn.DRAW);
-			this.loggGame.fine("Stabilito un pareggio per troppe mosse senza mangiare");
+			//this.loggGame.fine("Stabilito un pareggio per troppe mosse senza mangiare");
 		}
 		this.movesWithutCapturing++;
 		return state;
@@ -586,7 +586,7 @@ public class GameTablut implements Game {
 
 	@Override
 	public void endGame(State state) {
-		this.loggGame.fine("Stato: "+state.toString());
+		//this.loggGame.fine("Stato: "+state.toString());
 	}
 
 	

@@ -20,7 +20,7 @@ public class GameModel implements aima.core.search.adversarial.Game<State, Actio
 
     public GameModel(Game rules, String modelToUse){
         this.rules = rules;
-        this.serializedStateToValue = new MaxSizeHashMap<>(1500000);
+        this.serializedStateToValue = new MaxSizeHashMap<>(1000000);
 
         try{
             this.modelProcessInterface = new PythonProcessInterface("python3", "./model/model_communication_with_pipe.py");
@@ -34,11 +34,10 @@ public class GameModel implements aima.core.search.adversarial.Game<State, Actio
     }
 
     private Double[] getWinProbability(String serializedState){
-        if (this.serializedStateToValue.containsKey(serializedState)){
-            Double value = this.serializedStateToValue.get(serializedState);
+        Double value = this.serializedStateToValue.get(serializedState);
+        if (value != null){
             return new Double[]{value, 1 - value};
         }
-
 
         this.modelProcessInterface.writeToPipe(serializedState);
         String probabilityString = this.modelProcessInterface.readFromPipe();

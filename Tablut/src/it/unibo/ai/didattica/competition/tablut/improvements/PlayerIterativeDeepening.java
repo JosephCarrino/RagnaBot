@@ -4,7 +4,6 @@ import aima.core.search.adversarial.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
-import it.unibo.ai.didattica.competition.tablut.localEmulator.LocalRunner;
 
 
 public class PlayerIterativeDeepening extends IterativeDeepeningAlphaBetaSearch<State,Action, State.Turn> implements Player{
@@ -21,9 +20,6 @@ public class PlayerIterativeDeepening extends IterativeDeepeningAlphaBetaSearch<
     @Override
     public Action makeDecision(State state) {
         Action a = super.makeDecision(state);
-
-        LocalRunner.printAndDisablePrint("Explored a total of " + getMetrics().get(METRICS_NODES_EXPANDED) + " nodes, reaching a depth limit of " + getMetrics().get(METRICS_MAX_DEPTH));
-
         return a;
     }
 }

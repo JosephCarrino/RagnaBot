@@ -80,7 +80,7 @@ public class TablutAIClient extends TablutClient{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Running...");
+        //System.out.println("Running...");
 
         while (true){
             try {
@@ -89,7 +89,7 @@ public class TablutAIClient extends TablutClient{
                 e1.printStackTrace();
                 System.exit(1);
             }
-            System.out.println("Current state: ");
+            //System.out.println("Current state: ");
             State currentState = this.getCurrentState();
             State.Turn turn = currentState.getTurn();
             State.Turn player = this.getPlayer();
@@ -116,7 +116,7 @@ public class TablutAIClient extends TablutClient{
             case WHITEWIN -> winner = State.Turn.WHITE;
             case BLACKWIN -> winner = State.Turn.BLACK;
             case DRAW -> {
-                System.out.println("DRAW!");
+                //System.out.println("DRAW!");
                 System.exit(0);
             }
             default -> {
@@ -125,11 +125,11 @@ public class TablutAIClient extends TablutClient{
         }
 
         if (winner.equals(player)) {
-            System.out.println("YOU WIN!");
+            //System.out.println("YOU WIN!");
 
             System.exit(0);
         } else{
-            System.out.println("YOU LOSE!");
+            //System.out.println("YOU LOSE!");
             System.exit(0);
         }
     }
@@ -137,16 +137,16 @@ public class TablutAIClient extends TablutClient{
     private GameModel getGameModel(){
         switch (this.gameType) {
             case 1, 3 -> {
-                System.out.println("Using standard tablut rules");
+                //System.out.println("Using standard tablut rules");
                 return new GameModel(new GameTablut(), this.modelToUse);
 
             }
             case 2 -> {
-                System.out.println("Using modern tablut rules");
+                //System.out.println("Using modern tablut rules");
                 return new GameModel(new GameModernTablut(), this.modelToUse);
             }
             case 4 -> {
-                System.out.println("Using Ashton tablut rules");
+                //System.out.println("Using Ashton tablut rules");
                 return new GameModel(new GameAshtonTablut(99, 0, "garbage", "fake", "fake"), this.modelToUse);
             }
         }
