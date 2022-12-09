@@ -51,6 +51,16 @@ At this point, a window with the game state should appear.
 
 To be able to run other classes, change the `build.xml` file and re-compile everything
 
+To be able to run Ragnabot some python libraries must be installed:
+
+```
+pip install pandas
+pip install numpy
+pip install scikit-learn
+pip install matplotlib
+pip install sklearn2pmml
+```
+
 To run RagnaBot use:
 
 ```
