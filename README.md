@@ -1,4 +1,6 @@
-# TablutCompetition
+<h1>:2nd_place_medal: 2nd place at 2022/2023 Tablut Competition</h2>
+
+<h2> RagnaBot </h2>
 Software for the Tablut Students Competition
 
 ## Installation on Ubuntu/Debian 
